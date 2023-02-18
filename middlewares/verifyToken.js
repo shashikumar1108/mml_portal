@@ -1,21 +1,25 @@
 const jwt = require('jsonwebtoken')
 const { reply, tokenError } = require('../helpers/response')
-const config = require('../server')
+const envConfig = require('../server')
 const msgs = require('../helpers/messages')
+const { parseToken } = require('../helpers/jwtToken');
 
 class Jwtvalidator{
 
     parseToken(token){
-        return jwt.verify(token,config.env.JWT_TOKEN)
+        return jwt.verify(token,envConfig.env.JWT_TOKEN)
     }
     
     async validateToken(req,res,next){
         
+        console.log("user : ",req.headers)
+
         try{
             if( req.headers.authorization && req.headers.authorization != '' ){
     
                 let token = req.headers.authorization;
                 const user = parseToken(token);
+                
                 if( user && user.id ){
                     return replyMsg(req,res,user);
                 }else{
@@ -34,11 +38,15 @@ class Jwtvalidator{
     }
 
     async checkToken (req,res,next){
+
+        console.log(req.headers.authorization);
         try{
-            if( req.headers.authorization && req.headers.authorization != '' ){
+            if( req.headers.authorization ){
     
                 let token = req.headers.authorization;
                 const user = parseToken(token);
+                console.log("user : ",user)
+
                 if( user && user.id ){
                     console.log('Redirect to home page')
                     res.redirect('/dashboard')
@@ -52,6 +60,14 @@ class Jwtvalidator{
         }catch(error){
             next();
         }
+    }
+
+    async createToken(data){
+        let expirationTime = 60 * 60 * 24 * 3;
+        const token = jwt.sign({ data: data }, envConfig.env.JWT_TOKEN, {
+            expiresIn: expirationTime,
+        });
+        return token;
     }
 
 }

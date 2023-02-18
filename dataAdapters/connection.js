@@ -1,6 +1,7 @@
 const mysql = require('mysql')
+let conn
 try{
-    const conn = mysql.createConnection({
+    conn = mysql.createConnection({
         // host:'sql.freedb.tech',
         // user:'freedb_mml_root',
         // password:'S$3VNDgv&2h@YJM',
@@ -9,6 +10,7 @@ try{
         host:'localhost',
         user:'root',
         password:'',
+        database:'portal_db'
     })
     conn.connect(function(error){
         if(error){
@@ -22,4 +24,4 @@ try{
     console.log("Something went wrong !!!")
 }
 
-module.exports = mysql
+module.exports = conn

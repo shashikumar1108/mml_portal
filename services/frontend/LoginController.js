@@ -1,5 +1,6 @@
 
 const { reply } = require('../../helpers/response')
+const { createToken , parseToken } = require('../../helpers/jwtToken');
 
 class LoginController{
 
@@ -7,8 +8,12 @@ class LoginController{
         res.render('../public/login.html')
     }
 
-    verifyLogin(req,res){
+    // verifyLogin(req,res){
+    //     res.send(req.body);
+    // }
 
+    dashboard(req,res){
+        res.send('Dashboard');
     }
 }
 module.exports = new LoginController();

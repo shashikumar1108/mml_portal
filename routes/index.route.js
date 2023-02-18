@@ -1,8 +1,9 @@
 const express = require('express')
 const app = express()
 
-app.get('/',(req,res)=>{
-    console.log("MML Portal")
-})
+const loginController = require('../services/frontend/LoginController');
 
+
+
+app.get('/',loginController.index);
 module.exports = app

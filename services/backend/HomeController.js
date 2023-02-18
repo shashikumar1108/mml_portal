@@ -3,6 +3,7 @@ const { reply, clientError } = require('../../helpers/response')
 const { createToken , parseToken } = require('../../helpers/jwtToken');
 const commonQuery = require('../../dataAdapters/query/commoQuery')
 const msgs = require('../../helpers/messages');
+const { randomCode, sendMail } = require('../../helpers/common');
 
 class HomeController{
 
@@ -25,9 +26,30 @@ class HomeController{
             console.log("Data : ",data);    
         }else{
             return clientError(req,res,msgs.errorMessages.invalidEmail)
-        }        
-        //res.send(req.body);
-        //res.send(createToken({userId:"test"}))
+        }      
+
+    }
+
+    async forgotPassword(req,res){
+
+        let where = " email = '"+req.body.userEmail+"' ";
+        let data = await commonQuery.getRecords('users',where,'id,email,status')
+        //console.log("Response : ",data);
+
+        if( data && data.length ){
+            if( data[0].status != 1 ){
+                return clientError(req,res,msgs.errorMessages.inactiveUser)
+            }else{
+                let resetCode = randomCode(50);
+                let response = {message:msgs.successMessages.resetSuccess,resetCode:resetCode}
+                await sendMail('shashikumarvchandru@yahoo.com','Test Mail','testing');
+                return reply(req,res,response);    
+            }
+            console.log("Data : ",data);    
+        }else{
+            return clientError(req,res,msgs.errorMessages.invalidEmail)
+        }      
+        
     }
 
 }

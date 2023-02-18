@@ -7,5 +7,6 @@ const homeController = require('../services/backend/HomeController')
 const formValidator = require('../middlewares/formValidator')
 
 app.post('/verifyLogin', formValidator.login, homeController.verifyLogin);
+app.post('/forgot', formValidator.forgot, homeController.forgotPassword);
 
 module.exports = app

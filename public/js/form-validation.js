@@ -1,11 +1,68 @@
 (function($) {
   'use strict';
   $.validator.setDefaults({
-    submitHandler: function() {
-      alert("submitted!");
-    }
+    // submitHandler: function() {
+    //   alert("submitted!");
+    // }
   });
   $(function() {
+
+    // validate the comment form when it is submitted
+    $("#forgotForm").validate({
+      rules: {        
+        userEmail: {
+          required: true,
+          email: true
+        },
+      },
+      messages: {
+        userEmail: {
+          required: "Please enter a username"
+        },
+      },
+      errorPlacement: function(label, element) {
+        label.addClass('mt-2 text-danger');
+        label.insertAfter(element);
+      },
+      highlight: function(element, errorClass) {
+        $(element).parent().addClass('has-danger')
+        $(element).addClass('form-control-danger')
+      }
+    });
+
+    // validate the comment form when it is submitted
+    $("#loginForm").validate({
+      rules: {        
+        userEmail: {
+          required: true,
+          email: true
+        },
+        userPassword: {
+          required: true,
+          minlength: 8,
+          maxlength: 8,
+        },
+      },
+      messages: {
+        userEmail: {
+          required: "Please enter a username"
+        },
+        userPassword: {
+          required: "Please provide a password",
+          minlength: "Your password must be at least 8 characters long",
+          maxlength: "Your password must be max 8 characters long"
+        },
+      },
+      errorPlacement: function(label, element) {
+        label.addClass('mt-2 text-danger');
+        label.insertAfter(element);
+      },
+      highlight: function(element, errorClass) {
+        $(element).parent().addClass('has-danger')
+        $(element).addClass('form-control-danger')
+      }
+    });
+
     // validate the comment form when it is submitted
     $("#commentForm").validate({
       errorPlacement: function(label, element) {

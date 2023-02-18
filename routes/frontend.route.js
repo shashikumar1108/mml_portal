@@ -7,6 +7,7 @@ const loginController = require('../services/frontend/LoginController')
 const formValidator = require('../middlewares/formValidator')
 
 app.get('/home', loginController.dashboard);
+app.get('/forgot', loginController.forgot);
 
 app.get('/', tokenMid.checkToken, loginController.index);
 

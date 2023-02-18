@@ -37,6 +37,17 @@ class CommonQuery{
         }
     }
 
+    async updateRecord(table,where = '',set = ''){
+        let data = {};
+        try{
+            let query = `update ${table} set ${set} where ${where} `;
+            return await this.doQuery(query);
+        }catch(error){
+            console.log(error)
+            return data
+        }
+    }
+
 }
 
 module.exports = new CommonQuery();

@@ -1,5 +1,6 @@
 let successMessages = {
     'loggedSuccess' : 'Logged successfully',
+    'resetSuccess' : 'Reset password link sent in mail'
 }
 
 let errorMessages = {

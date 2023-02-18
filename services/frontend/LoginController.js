@@ -5,7 +5,11 @@ const { createToken , parseToken } = require('../../helpers/jwtToken');
 class LoginController{
 
     index(req,res){
-        res.render('../public/login.html')
+        res.render('../public/html/login.html')
+    }
+
+    forgot(req,res){
+        res.render('../public/html/forgot.html')
     }
 
     // verifyLogin(req,res){

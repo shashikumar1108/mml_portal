@@ -24,6 +24,28 @@ class formValidator{
         }
     }
 
+    async forgot(req,res,next){
+
+        console.log(res.body);
+        
+        const schema = Joi.object().keys({
+            userEmail:Joi.string().required(),
+        })
+
+        try{
+            const { error } = await schema.validate(req.body);
+            if (error) {
+                //let message = "Please Enter Valid Phone Number";
+                let message = error && error.details[0].message.replace(/"/g, "'");
+                return clientError(req, res, message);
+            }
+            //res.send('Success');
+            return next();
+        }catch(error){
+            return serverError(req, res, error);
+        }
+    }
+
 }
 
 module.exports = new formValidator()

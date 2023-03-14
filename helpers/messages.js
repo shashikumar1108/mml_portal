@@ -10,6 +10,9 @@ let errorMessages = {
     'inactiveUser' : 'Account is inactive',
     'invalidPassword' : 'Incorrect password',
     'invalidEmail' : 'Email not found',
+    'passMismatch' : 'Password mismatch!!!!',
+    'passResetIssue' : 'Invalid access please try again',
+    'passChanged' : 'Password changed successfully !!!',
 }
 
 let msgs = {

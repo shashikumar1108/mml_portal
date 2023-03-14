@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const { reply, tokenError } = require('../helpers/response')
+const { replyMsg, tokenError, clientErrorMsg } = require('../helpers/response')
 const envConfig = require('../server')
 const msgs = require('../helpers/messages')
 const { parseToken } = require('../helpers/jwtToken');
@@ -39,26 +39,24 @@ class Jwtvalidator{
 
     async checkToken (req,res,next){
 
-        console.log(req.headers.authorization);
+        console.log('Token :', req.headers.authorization);
         try{
-            if( req.headers.authorization ){
+            if( req.headers.authorization != undefined){
     
                 let token = req.headers.authorization;
                 const user = parseToken(token);
                 console.log("user : ",user)
 
-                if( user && user.id ){
-                    console.log('Redirect to home page')
-                    res.redirect('/dashboard')
+                if( user && user.data && user.data.id ){
+                    //next();
                 }else{
-                    next();
+                    //res.redirect('/login')    
                 }
-    
             }else{
-                next();
+                res.redirect('/login')
             }
         }catch(error){
-            next();
+            res.redirect('/login')
         }
     }
 
@@ -68,6 +66,36 @@ class Jwtvalidator{
             expiresIn: expirationTime,
         });
         return token;
+    }
+
+    //JWT token validation
+    async checkJWTToken (req,res,next){
+
+        console.log('Token :', req.headers.authorization);
+        try{
+            if( req.headers.authorization != undefined){
+    
+                let token = req.headers.authorization;
+                const user = parseToken(token);
+                console.log("user : ",user)
+
+                if( user && user.data ){
+                    console.log(user.data);
+                    if( user.data && user.data.id ){
+                        return replyMsg(req,res,user);
+                    }else{
+                        return clientErrorMsg(req,res,msgs.errorMessages.invalidToken);    
+                    }
+                }else{
+                    return clientErrorMsg(req,res,msgs.errorMessages.invalidToken);
+                }
+    
+            }else{
+                return clientErrorMsg(req,res,msgs.errorMessages.invalidToken);
+            }
+        }catch(error){
+            return clientErrorMsg(req,res,msgs.errorMessages.invalidToken);
+        }
     }
 
 }

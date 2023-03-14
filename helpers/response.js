@@ -26,7 +26,7 @@ const serverError = (req, res, error) => {
   let response = {
     error: error
   };
-  logger.error(error);
+  //logger.error(error);
   return res.status(500).send(response);
 };
 

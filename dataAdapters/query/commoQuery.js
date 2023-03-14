@@ -41,6 +41,7 @@ class CommonQuery{
         let data = {};
         try{
             let query = `update ${table} set ${set} where ${where} `;
+            console.log(query);
             return await this.doQuery(query);
         }catch(error){
             console.log(error)

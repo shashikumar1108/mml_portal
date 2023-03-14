@@ -2,12 +2,26 @@ const nodemailer = require('nodemailer');
 
 const sendMail = (to, subject, content) => {
 
+    // create reusable transporter object using the default SMTP transport
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        //host: "smtp.gmail.com",
+        //port: 465,               // true for 465, false for other ports
+        //secure: false,
+        auth: {
+            user: process.env.EMAIL_FROM,
+            pass: process.env.EMAIL_PASSKEY,
+        },
+        
+    });
+
     const mailData = {
-        from: fromMail,  // sender address
+        from: process.env.EMAIL_FROM,  // sender address
         to: to,   // list of receivers
         subject: subject,
-        text: content,
+        //text: content,
         //html: '<b>Hey there! </b> <br> This is our first message sent with Nodemailer<br/>',
+        html: content,
     };
 
     transporter.sendMail(mailData, function (err, info) {

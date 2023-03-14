@@ -1,0 +1,28 @@
+<script>
+
+    $(document).ready(function() {
+        let accessToken = localStorage.getItem("portal_token");
+        if( accessToken != null ){
+            $.ajax({
+                url: "/api/v1/dashboard",
+                headers: {"authorization": accessToken},
+                type: "get",
+                dataType:'json',
+                success: function (result) {
+                    console.log(result)    
+                },
+                error: function (err) {
+                    window.location.href = '/';
+                }
+            });   
+        }else{
+            window.location.href = '/';
+        }
+    })
+
+    function logout(){
+        //alert("Logout")
+        localStorage.clear();
+        window.location.href = '/';
+    }
+</script>

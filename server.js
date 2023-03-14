@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 require('dotenv').config();
 const app = express();
@@ -26,6 +27,7 @@ require('./dataAdapters/connection')
 // let appToken = require('crypto').randomBytes(64).toString('hex')
 // console.log(appToken)
 
+app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'html');
 app.engine('html', require('ejs').renderFile);
 app.use(express.static(__dirname + '/public'));

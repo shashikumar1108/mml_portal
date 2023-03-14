@@ -11,4 +11,8 @@ const loginController = require('../services/frontend/LoginController');
 app.use('/api/v1',require('./backend.route'))
 app.use(require('./frontend.route'))
 
+app.get('*', function(req, res){
+    res.render('../public/html/404.html')
+});
+
 module.exports = app

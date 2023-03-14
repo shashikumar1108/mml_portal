@@ -80,10 +80,84 @@
   <!-- End custom js for this page-->
 
   <script>
+  
+  let accessToken = localStorage.getItem("portal_token");
+  console.log("Token : ",accessToken);
+
+  function checkLogin(){
+    console.log("Validate Login");
+    $.ajax({
+      url: "/api/v1/validateLogin",
+      headers: {"authorization": accessToken},
+      type: "get",
+      dataType:'json',
+      data: { },
+      success: function (result) {
+        // when call is sucessfull
+        console.log(result);
+        // localStorage.setItem("portal_token", result.data.token);
+        window.location.href = 'home';
+      },
+      error: function (err) {
+        // check the err for error details
+        // let msg = 'Something went wrong!!!!'
+        // if( err.status == 400 ){
+        //   msg = JSON.parse(err.responseText).message;
+        // }
+        // swal({
+        //   title: 'Read the alert!',
+        //   text: msg,
+        //   button: {
+        //     text: "OK",
+        //     value: true,
+        //     visible: true,
+        //     className: "btn btn-primary"
+        //   }
+        // })
+      }
+    });
+  }
 
   $(document).ready(function() {
+
+    if( accessToken != undefined || accessToken != '' ){
+      checkLogin();
+    }
+
     $("#loginForm").submit(function() {
-      console.log($(this).serialize())
+      //console.log($(this).serialize())
+
+      $.ajax({
+        url: "/api/v1/verifyLogin",
+        type: "post",
+        dataType:'json',
+        data: { userEmail : $('#loginForm #userEmail').val(), userPassword : $('#loginForm #userPassword').val() },
+        //data : $('#loginForm').serialize(),
+        success: function (result) {
+          // when call is sucessfull
+          //console.log(result);
+          localStorage.setItem("portal_token", result.data.token);
+          window.location.href = 'home';
+        },
+        error: function (err) {
+          // check the err for error details
+          let msg = 'Something went wrong!!!!'
+          if( err.status == 400 ){
+            msg = JSON.parse(err.responseText).message;
+          }
+          swal({
+            title: 'Read the alert!',
+            text: msg,
+            button: {
+              text: "OK",
+              value: true,
+              visible: true,
+              className: "btn btn-primary"
+            }
+          })
+        }
+      });
+
       return false;
     })
   })

@@ -12,12 +12,17 @@ class LoginController{
         res.render('../public/html/forgot.html')
     }
 
-    // verifyLogin(req,res){
-    //     res.send(req.body);
-    // }
+    resetPassword(req,res){
+        let resetCode = req.query.resetCode;
+        res.render('../public/html/resetPass.html',{resetCode})
+    }
 
     dashboard(req,res){
-        res.send('Dashboard');
+        res.render('../public/html/dashboard.html')
+    }
+
+    users(req,res){
+        res.render('../public/html/users.html')
     }
 }
 module.exports = new LoginController();

@@ -10,14 +10,14 @@
     // validate the comment form when it is submitted
     $("#forgotForm").validate({
       rules: {        
-        userEmail: {
+        email: {
           required: true,
           email: true
         },
       },
       messages: {
-        userEmail: {
-          required: "Please enter a username"
+        email: {
+          required: "Please enter a email"
         },
       },
       errorPlacement: function(label, element) {
@@ -40,7 +40,7 @@
         userPassword: {
           required: true,
           minlength: 8,
-          maxlength: 8,
+          maxlength: 15,
         },
       },
       messages: {
